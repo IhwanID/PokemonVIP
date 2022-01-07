@@ -55,14 +55,14 @@ class PokemonListViewController: UITableViewController, PokemonListDisplayLogic
     
     // MARK: Routing
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-    {
-        if let scene = segue.identifier {
-            let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-            if let router = router, router.responds(to: selector) {
-                router.perform(selector, with: segue)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if let scene = segue.identifier {
+                let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
+                if let router = router, router.responds(to: selector) {
+                    router.perform(selector, with: segue)
+                }
             }
-        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -85,6 +85,9 @@ class PokemonListViewController: UITableViewController, PokemonListDisplayLogic
     }
     
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        router?.routeToPokemonDetail(segue: nil)
+    }
     override func numberOfSections(in tableView: UITableView) -> Int
     {
         return 1
@@ -98,7 +101,7 @@ class PokemonListViewController: UITableViewController, PokemonListDisplayLogic
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let displayedPokemon = displayedPokemons[indexPath.row]
-        let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PokemonTableViewCell")!
         cell.textLabel?.text = displayedPokemon.name
         return cell
     }

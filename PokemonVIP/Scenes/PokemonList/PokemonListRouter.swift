@@ -14,7 +14,7 @@ import UIKit
 
 @objc protocol PokemonListRoutingLogic
 {
-    //func routeToSomewhere(segue: UIStoryboardSegue?)
+    func routeToPokemonDetail(segue: UIStoryboardSegue?)
 }
 
 protocol PokemonListDataPassing
@@ -29,32 +29,33 @@ class PokemonListRouter: NSObject, PokemonListRoutingLogic, PokemonListDataPassi
     
     // MARK: Routing
     
-    //func routeToSomewhere(segue: UIStoryboardSegue?)
-    //{
-    //  if let segue = segue {
-    //    let destinationVC = segue.destination as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //  } else {
-    //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-    //    var destinationDS = destinationVC.router!.dataStore!
-    //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-    //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-    //  }
-    //}
+    func routeToPokemonDetail(segue: UIStoryboardSegue?)
+    {
+      if let segue = segue {
+        let destinationVC = segue.destination as! PokemonDetailViewController
+        var destinationDS = destinationVC.router!.dataStore!
+       passDataToPokemonDetail(source: dataStore!, destination: &destinationDS)
+      } else {
+          let destinationVC = viewController?.storyboard?.instantiateViewController(withIdentifier: "PokemonDetailViewController") as! PokemonDetailViewController
+        var destinationDS = destinationVC.router!.dataStore!
+          passDataToPokemonDetail(source: dataStore!, destination: &destinationDS)
+        navigateToPokemonDetail(source: viewController!, destination: destinationVC)
+      }
+    }
     
     // MARK: Navigation
     
-    //func navigateToSomewhere(source: PokemonListViewController, destination: SomewhereViewController)
-    //{
-    //  source.show(destination, sender: nil)
-    //}
+    func navigateToPokemonDetail(source: PokemonListViewController, destination: PokemonDetailViewController)
+    {
+      source.show(destination, sender: nil)
+    }
     
     // MARK: Passing data
     
-    //func passDataToSomewhere(source: PokemonListDataStore, destination: inout SomewhereDataStore)
-    //{
-    //  destination.name = source.name
-    //}
+    func passDataToPokemonDetail(source: PokemonListDataStore, destination: inout PokemonDetailDataStore)
+    {
+        let selectedRow = viewController?.tableView.indexPathForSelectedRow?.row
+        destination.pokemon = source.pokemons?[selectedRow!]
+        
+    }
 }
