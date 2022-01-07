@@ -12,7 +12,7 @@
 
 import UIKit
 
-protocol PokemonDetailDisplayLogic: class
+protocol PokemonDetailDisplayLogic: AnyObject
 {
   func displaySomething(viewModel: PokemonDetail.PokemonDetail.ViewModel)
 }

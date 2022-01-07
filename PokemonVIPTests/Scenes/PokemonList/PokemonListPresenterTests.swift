@@ -64,9 +64,9 @@ class PokemonListPresenterTests: XCTestCase {
       sut.viewController = pokemonListDisplayLogicSpy
       
       // When
-      let pokemons = [Pokemon(name: "Agumon")]
+        
       
-      let response = PokemonList.FetchPokemons.Response(pokemons: pokemons)
+      let response = PokemonList.FetchPokemons.Response(pokemons: pokemonFactory())
       sut.presentFetchedPokemons(response: response)
       
       // Then
@@ -84,12 +84,17 @@ class PokemonListPresenterTests: XCTestCase {
       sut.viewController = pokemonListDisplayLogicSpy
       
       // When
-      let pokemons = [Pokemon(name: "Agumon")]
-      let response = PokemonList.FetchPokemons.Response(pokemons: pokemons)
+      let response = PokemonList.FetchPokemons.Response(pokemons: pokemonFactory())
       sut.presentFetchedPokemons(response: response)
       
       // Then
       XCTAssert(pokemonListDisplayLogicSpy.displayFetchedPokemonsCalled, "Presenting fetched orders should ask view controller to display them")
+    }
+    
+    func pokemonFactory() -> [Pokemon] {
+        let images = Pokemon.Images(small: "http://some-url")
+        let pokemons = [Pokemon(name: "Agumon", images: images)]
+        return pokemons
     }
 
 }
