@@ -72,7 +72,7 @@ class PokemonListInteractorTests: XCTestCase
     // Given
     let pokemonListPresentationLogicSpy = PokemonListPresentationLogicSpy()
     sut.presenter = pokemonListPresentationLogicSpy
-    let pokemonListWorkerSpy = PokemonListWorkerSpy()
+      let pokemonListWorkerSpy = PokemonListWorkerSpy(pokemonService: PokemonServiceAPI())
     sut.worker = pokemonListWorkerSpy
     
     // When

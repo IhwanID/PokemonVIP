@@ -14,14 +14,38 @@ import UIKit
 
 class PokemonListWorker
 {
+    
+    var pokemonService: PokemonServiceProtocol
+    
+    init(pokemonService: PokemonServiceProtocol)
+    {
+        self.pokemonService = pokemonService
+    }
+    
     func fetchPokemons(completionHandler: @escaping ([Pokemon]?) -> Void) {
+        pokemonService.fetchPokemons { result in
+            DispatchQueue.main.async {
+            completionHandler(result)
+            }
+        }
+    }
+}
+
+protocol PokemonServiceProtocol {
+    func fetchPokemons(completionHandler: @escaping ([Pokemon]) -> Void)
+}
+
+class PokemonServiceAPI: PokemonServiceProtocol {
+    static var pokemons: [Pokemon] = []
+        
+    func fetchPokemons(completionHandler: @escaping ([Pokemon]) -> Void) {
         let url = URL(string: "https://api.pokemontcg.io/v2/cards")!
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 if let response = try? JSONDecoder().decode(BaseResponse.self, from: data) {
-                    DispatchQueue.main.async {
-                        completionHandler(response.data)
-                    }
+                    type(of: self).pokemons.append(contentsOf: response.data)
+                    let pokemons = type(of: self).pokemons
+                        completionHandler(pokemons)
                 } else {
                     print("Invalid Response")
                 }

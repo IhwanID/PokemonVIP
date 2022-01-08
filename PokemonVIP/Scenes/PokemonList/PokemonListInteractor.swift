@@ -26,7 +26,7 @@ class PokemonListInteractor: PokemonListBusinessLogic, PokemonListDataStore
 {
    
     var presenter: PokemonListPresentationLogic?
-    var worker: PokemonListWorker? = PokemonListWorker()
+    var worker: PokemonListWorker? = PokemonListWorker(pokemonService: PokemonServiceAPI())
     var pokemons: [Pokemon]?
     
     // MARK: Do something
